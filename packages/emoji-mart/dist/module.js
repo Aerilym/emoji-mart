@@ -703,6 +703,7 @@ var $b247ea80b67298d5$export$2e2bcd8739ae039 = {
     onAddCustomEmoji: null,
     onClickOutside: null,
     onEmojiSelect: null,
+    onClose: null,
     // Deprecated
     stickySearch: {
         deprecated: true,
@@ -1949,12 +1950,13 @@ class $89bd6bb200cc8fef$export$2e2bcd8739ae039 extends (0, $fb96b826c0c5f37a$exp
         return {
             skin: (0, $f72b75cf796873c7$export$2e2bcd8739ae039).get("skin") || props.skin,
             theme: this.initTheme(props.theme),
-            onKeyDown: props.onKeyDown
+            onClose: props.onClose
         };
     }
     componentWillMount() {
         this.dir = (0, $7adb23b0109cc36a$export$dbe3113d60765c1a).rtl ? "rtl" : "ltr";
         this.refs = {
+            section: (0, $fb96b826c0c5f37a$export$7d1e3a5e95ceca43)(),
             menu: (0, $fb96b826c0c5f37a$export$7d1e3a5e95ceca43)(),
             navigation: (0, $fb96b826c0c5f37a$export$7d1e3a5e95ceca43)(),
             scroll: (0, $fb96b826c0c5f37a$export$7d1e3a5e95ceca43)(),
@@ -2161,11 +2163,6 @@ class $89bd6bb200cc8fef$export$2e2bcd8739ae039 extends (0, $fb96b826c0c5f37a$exp
     }
     preventDefault(e) {
         e.preventDefault();
-    }
-    unfocusSearch() {
-        const input = this.refs.searchInput.current;
-        if (!input) return;
-        input.blur();
     }
     navigate({ e: e , input: input , left: left , right: right , up: up , down: down  }) {
         const grid = this.state.searchResults || this.grid;
@@ -2695,7 +2692,6 @@ class $89bd6bb200cc8fef$export$2e2bcd8739ae039 extends (0, $fb96b826c0c5f37a$exp
             "data-emoji-set": this.props.set,
             "data-theme": this.state.theme,
             "data-menu": this.state.showSkins ? "" : undefined,
-            onKeyDown: this.state.onKeyDown,
             children: [
                 this.props.previewPosition == "top" && this.renderPreview(),
                 this.props.navPosition == "top" && this.renderNav(),
@@ -2726,7 +2722,7 @@ class $89bd6bb200cc8fef$export$2e2bcd8739ae039 extends (0, $fb96b826c0c5f37a$exp
         });
     }
     constructor(props){
-        super();
+        super(props);
         (0, $c770c458706daa72$export$2e2bcd8739ae039)(this, "darkMediaCallback", ()=>{
             if (this.props.theme != "auto") return;
             this.setState({
@@ -2858,7 +2854,7 @@ class $89bd6bb200cc8fef$export$2e2bcd8739ae039 extends (0, $fb96b826c0c5f37a$exp
                 case "Escape":
                     e.preventDefault();
                     if (this.state.searchResults) this.clearSearch();
-                    else this.unfocusSearch();
+                    else this.state.onClose();
                     break;
                 default:
                     break;
@@ -2906,6 +2902,10 @@ class $89bd6bb200cc8fef$export$2e2bcd8739ae039 extends (0, $fb96b826c0c5f37a$exp
             },
             ...this.getInitialState(props)
         };
+        console.warn("CLOSE STATE", {
+            state: this.state,
+            props: props
+        });
     }
 }
 

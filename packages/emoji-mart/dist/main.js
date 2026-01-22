@@ -1920,6 +1920,7 @@ var $f39d0d696aba82c3$export$2e2bcd8739ae039 = {
     onAddCustomEmoji: null,
     onClickOutside: null,
     onEmojiSelect: null,
+    onClose: null,
     // Deprecated
     stickySearch: {
         deprecated: true,
@@ -3924,7 +3925,7 @@ var $75afa6943437e26f$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Component1
     function Picker(props) {
         (0, (/*@__PURE__*/$parcel$interopDefault($aceb8ee155713853$exports)))(this, Picker);
         var _this;
-        _this = _super.call(this);
+        _this = _super.call(this, props);
         (0, (/*@__PURE__*/$parcel$interopDefault($gntqc)))((0, (/*@__PURE__*/$parcel$interopDefault($5MCow)))(_this), "darkMediaCallback", function() {
             if (_this.props.theme != "auto") return;
             _this.setState({
@@ -4120,7 +4121,7 @@ var $75afa6943437e26f$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Component1
                 case "Escape":
                     e.preventDefault();
                     if (_this.state.searchResults) _this.clearSearch();
-                    else _this.unfocusSearch();
+                    else _this.state.onClose();
                     break;
                 default:
                     break;
@@ -4184,6 +4185,10 @@ var $75afa6943437e26f$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Component1
                 0: true
             }
         }, _this.getInitialState(props));
+        console.warn("CLOSE STATE", {
+            state: _this.state,
+            props: props
+        });
         return _this;
     }
     (0, (/*@__PURE__*/$parcel$interopDefault($bf5a3d69977e47ef$exports)))(Picker, [
@@ -4194,7 +4199,7 @@ var $75afa6943437e26f$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Component1
                 return {
                     skin: (0, $000e3cabb83607f9$export$2e2bcd8739ae039).get("skin") || props.skin,
                     theme: this.initTheme(props.theme),
-                    onKeyDown: props.onKeyDown
+                    onClose: props.onClose
                 };
             }
         },
@@ -4203,6 +4208,7 @@ var $75afa6943437e26f$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Component1
             value: function componentWillMount() {
                 this.dir = (0, $47b4a70d4572a3b3$export$dbe3113d60765c1a).rtl ? "rtl" : "ltr";
                 this.refs = {
+                    section: (0, $d5fc6ac583bc94a1$export$7d1e3a5e95ceca43)(),
                     menu: (0, $d5fc6ac583bc94a1$export$7d1e3a5e95ceca43)(),
                     navigation: (0, $d5fc6ac583bc94a1$export$7d1e3a5e95ceca43)(),
                     scroll: (0, $d5fc6ac583bc94a1$export$7d1e3a5e95ceca43)(),
@@ -4638,14 +4644,6 @@ var $75afa6943437e26f$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Component1
             key: "preventDefault",
             value: function preventDefault(e) {
                 e.preventDefault();
-            }
-        },
-        {
-            key: "unfocusSearch",
-            value: function unfocusSearch() {
-                var input = this.refs.searchInput.current;
-                if (!input) return;
-                input.blur();
             }
         },
         {
@@ -5256,7 +5254,6 @@ var $75afa6943437e26f$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Component1
                     "data-emoji-set": this.props.set,
                     "data-theme": this.state.theme,
                     "data-menu": this.state.showSkins ? "" : undefined,
-                    onKeyDown: this.state.onKeyDown,
                     children: [
                         this.props.previewPosition == "top" && this.renderPreview(),
                         this.props.navPosition == "top" && this.renderNav(),

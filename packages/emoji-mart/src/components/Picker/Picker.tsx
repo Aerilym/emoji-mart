@@ -16,7 +16,7 @@ const Performance = {
 
 export default class Picker extends Component {
   constructor(props) {
-    super()
+    super(props)
 
     this.observers = []
 
@@ -32,13 +32,14 @@ export default class Picker extends Component {
     return {
       skin: Store.get('skin') || props.skin,
       theme: this.initTheme(props.theme),
-      onKeyDown: props.onKeyDown,
+      onClose: props.onClose,
     }
   }
 
   componentWillMount() {
     this.dir = I18n.rtl ? 'rtl' : 'ltr'
     this.refs = {
+      section: createRef(),
       menu: createRef(),
       navigation: createRef(),
       scroll: createRef(),
@@ -446,7 +447,7 @@ export default class Picker extends Component {
         if (this.state.searchResults) {
           this.clearSearch()
         } else {
-          this.unfocusSearch()
+          this.state.onClose()
         }
         break
 
@@ -463,13 +464,6 @@ export default class Picker extends Component {
     input.focus()
 
     this.handleSearchInput()
-  }
-
-  unfocusSearch() {
-    const input = this.refs.searchInput.current
-    if (!input) return
-
-    input.blur()
   }
 
   navigate({ e, input, left, right, up, down }) {
@@ -1106,7 +1100,6 @@ export default class Picker extends Component {
         data-emoji-set={this.props.set}
         data-theme={this.state.theme}
         data-menu={this.state.showSkins ? '' : undefined}
-        onKeyDown={this.state.onKeyDown}
       >
         {this.props.previewPosition == 'top' && this.renderPreview()}
         {this.props.navPosition == 'top' && this.renderNav()}
