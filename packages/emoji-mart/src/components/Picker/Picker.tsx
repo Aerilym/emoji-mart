@@ -32,6 +32,7 @@ export default class Picker extends Component {
     return {
       skin: Store.get('skin') || props.skin,
       theme: this.initTheme(props.theme),
+      onKeyDown: props.onKeyDown,
     }
   }
 
@@ -1105,6 +1106,7 @@ export default class Picker extends Component {
         data-emoji-set={this.props.set}
         data-theme={this.state.theme}
         data-menu={this.state.showSkins ? '' : undefined}
+        onKeyDown={this.state.onKeyDown}
       >
         {this.props.previewPosition == 'top' && this.renderPreview()}
         {this.props.navPosition == 'top' && this.renderNav()}
